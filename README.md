@@ -1,98 +1,164 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🧪 Mockly — Fake API Response Generator for Dev Teams
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> **Mockly** is a lightweight NestJS-based mock server that generates fake API responses for developers.  
+> It helps frontend, mobile, and integration teams test APIs without waiting for backend completion.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- ✅ RESTful API built with **NestJS**
+- ⚙️ Configurable endpoints for custom mock data
+- 📦 Auto-generated Swagger UI for testing
+- 💬 Unified response format (`MockResponse` DTO)
+- 🧰 Easy to extend and integrate with existing projects
+- ⏱️ Simulate delays, timeouts, and random errors
+- 🧠 Supports HTTP status mapping (`200`, `201`, `202`, `400`, `404`, ...)
 
-## Project setup
+---
 
-```bash
-$ npm install
+## 🏗️ Project Structure
+
+```
+src/
+ ├── main.ts                  # App entry point
+ ├── app.module.ts            # Root module
+ ├── common/
+ │   └── response.helper.ts    # Utility functions for success/error responses
+ ├── config/
+ │   └── swagger.ts    # Utility for api documentations
+ │   
+ ├── modules/
+ │   └── mock/
+ │       ├── mock.controller.ts     # Example endpoints
+ │       ├── mock.service.ts        # Logic for generating mock data
+ │       └── mock.module.ts
+
 ```
 
-## Compile and run the project
+---
+
+## ⚡ Installation
 
 ```bash
-# development
-$ npm run start
+# 1. Clone this repository
+git clone https://github.com/nguyenlyminhman/mockly.git
+cd mockly
 
-# watch mode
-$ npm run start:dev
+# 2. Install dependencies
+npm install
 
-# production mode
-$ npm run start:prod
+# 3. Run the server
+npm run start:dev
 ```
 
-## Run tests
+Server will start at:  
+👉 `http://localhost:3000`
 
-```bash
-# unit tests
-$ npm run test
+Swagger UI available at:  
+👉 `http://localhost:3000/api/docs`
 
-# e2e tests
-$ npm run test:e2e
+---
 
-# test coverage
-$ npm run test:cov
+## 🧩 Example Endpoints
+
+| Method | Endpoint | Description |
+|--------|-----------|-------------|
+| `GET` | `/mock/hello` | Returns a simple test response |
+| `POST` | `/mock/timeout` | Simulates delayed response |
+| `GET` | `/mock/error` | Returns an error response |
+| `GET` | `/mock/users` | Returns a list of fake users |
+
+---
+
+## 🧱 Response Format
+
+All API responses follow a unified structure defined by [`MockResponse`](src/common/dto/mock-response.dto.ts):
+
+```json
+{
+  "statusCode": 200,
+  "message": "OK",
+  "payload": {
+    "id": 1,
+    "name": "John Doe"
+  }
+}
 ```
 
-## Deployment
+**MockResponse class:**
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```ts
+export class MockResponse<T = any> {
+  statusCode: number;
+  message: string;
+  payload?: T;
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🧠 Example Usage in Controller
 
-Check out a few resources that may come in handy when working with NestJS:
+```ts
+@Post('/timeout')
+@ApiOkResponse({ type: MockResponse })
+async callTimeoutData() {
+  const data = await this.mockService.callTimeoutData();
+  return MockResponse.success(data, 'Request accepted', HttpStatus.ACCEPTED);
+}
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+## 🔧 Configuration
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+You can modify or extend mock endpoints in:
 
-## Stay in touch
+```
+src/modules/mock/mock.controller.ts
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+To add new fake data:
+- Create new files under `/mocks`
+- Import and use them in the mock service
 
-## License
+---
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 💬 Development Tips
+
+- Use `MockResponse.success()` for success responses
+- Use `MockResponse.error()` for errors
+- Avoid `@Res()` in controllers if you want Swagger to auto-document responses
+- Use `@HttpCode()` for setting custom HTTP status
+
+---
+
+## 🧰 Example Helper (`response.helper.ts`)
+
+```ts
+export const mockResponse = (status: number, success: boolean, data: any) => ({
+  statusCode: status,
+  success,
+  data,
+});
+```
+
+---
+
+## 🧑‍💻 Contributors
+
+| Name | Role |
+|------|------|
+| **Nguyen Ly Minh Man** | 💡 Lead Developer |
+| Team Dev | 🔧 Frontend / API Integration |
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+> 💬 _Mockly — "When real APIs aren’t ready, mock them beautifully."_

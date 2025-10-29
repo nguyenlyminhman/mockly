@@ -3,7 +3,7 @@ import { MockService } from './mock.service';
 import { Response } from 'express';
 import { MockResponse } from 'src/common/response.helper';
 
-@Controller('mockly')
+@Controller('/mockly')
 export class MockController {
 
     constructor(private readonly mockService: MockService) { }
