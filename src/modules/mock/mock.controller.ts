@@ -1,5 +1,7 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { MockService } from './mock.service';
+import { Response } from 'express';
+import { MockResponse } from 'src/common/response.helper';
 
 @Controller('mockly')
 export class MockController {
@@ -7,8 +9,9 @@ export class MockController {
     constructor(private readonly mockService: MockService) { }
 
     @Post("/timeout")
-    callTimeoutData(): Promise<any> {
-        return this.mockService.callTimeoutData();
+    async callTimeoutData(){
+        const data = await this.mockService.callTimeoutData();        
+        return MockResponse.success(data, "yo", HttpStatus.ACCEPTED);
     }
 
 }

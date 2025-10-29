@@ -5,8 +5,7 @@ export class MockService {
 
     async callTimeoutData(): Promise<any> {
         await new Promise((resolve) => setTimeout(resolve, 5000));
-
-        return 'Hello AWS S3!';
+        return { message: 'This is a delayed response after timeout.' };
     }
 
 }
