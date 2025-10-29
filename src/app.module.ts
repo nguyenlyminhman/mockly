@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MegaboomModule } from './modules/megaboom/megaboom.module';
+import { MockModule } from './modules/mock/mock.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { ConfigModule } from '@nestjs/config';
 
@@ -9,7 +9,10 @@ import { ConfigModule } from '@nestjs/config';
   imports: [ConfigModule.forRoot({
     isGlobal: true,
     envFilePath: '.env',
-  }),MegaboomModule, SharedModule],
+  }),
+  MockModule, 
+  SharedModule
+],
   controllers: [AppController],
   providers: [AppService],
 })
