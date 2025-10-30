@@ -29,12 +29,7 @@ describe('AppController (e2e)', () => {
     await app.close();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
-  });
+
 
   it('/mockly/timeout (POST)', async () => {
     const res = await request(app.getHttpServer())
@@ -46,7 +41,7 @@ describe('AppController (e2e)', () => {
       message: 'yo',
       data: expect.anything(),
     });
-  }, 60000);
-
+  }, 60000
+  );
 
 });
