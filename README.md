@@ -154,12 +154,9 @@ export const mockResponse = (status: number, success: boolean, data: any) => ({
 
 ---
 
-## 🧑‍💻 Contributors
+## 🧑‍🎨 Author
 
-| Name | Role |
-|------|------|
-| **Nguyen Ly Minh Man** | 💡 Lead Developer |
-| Team Dev | 🔧 Frontend / API Integration |
+**Mockly** is built and maintained by **me**, as a personal learning project on building fake data and Jest test.
 
 ---
 
