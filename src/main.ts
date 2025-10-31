@@ -8,6 +8,8 @@ import helmet from 'helmet';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerConfig } from './config/swagger';
 import * as morgan from 'morgan';
+import { LoggingInterceptor } from './interceptor/logging.interceptor';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 
 async function bootstrap(): Promise<NestExpressApplication> {
@@ -21,6 +23,10 @@ async function bootstrap(): Promise<NestExpressApplication> {
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.use(helmet());
+  
+  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new AuthInterceptor());
+
   app.setGlobalPrefix('/api');
   app.useGlobalPipes(
     new ValidationPipe({
