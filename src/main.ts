@@ -23,9 +23,11 @@ async function bootstrap(): Promise<NestExpressApplication> {
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.use(helmet());
-  
-  app.useGlobalInterceptors(new LoggingInterceptor());
-  app.useGlobalInterceptors(new AuthInterceptor());
+
+  app.useGlobalInterceptors(
+    new LoggingInterceptor(),
+    new AuthInterceptor()
+  );
 
   app.setGlobalPrefix('/api');
   app.useGlobalPipes(
@@ -41,7 +43,7 @@ async function bootstrap(): Promise<NestExpressApplication> {
   app.use(morgan('combined'));
   app.enableVersioning();
   // Microservice config here
-  
+
 
   // Setup swagger
   if (serverConfig.swaggerEnabled) {
